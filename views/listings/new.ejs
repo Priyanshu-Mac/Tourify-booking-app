@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourify</title>
+</head>
+<body>
+    <h1>Create new listing</h1>
+    <form action="/listings" method="post">
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="e.g., Beachside Villa">
+
+        <label for="description">Description</label>
+        <textarea name="description" placeholder="Brief description..."></textarea>
+
+        <label for="image">Image URL</label>
+        <input type="text" name="image" placeholder="https://example.com/photo.jpg">
+
+        <label for="price">Price</label>
+        <input type="text" name="price" placeholder="e.g., 5000">
+
+        <label for="country">Country</label>
+        <input type="text" name="country" placeholder="e.g., India">
+
+        <label for="location">location</label>
+        <input type="text" name="location" placeholder="e.g., Goa">
+
+        <button>Add</button>
+    </form>
+</body>
+</html>
