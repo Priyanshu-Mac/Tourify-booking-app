@@ -1,0 +1,53 @@
+*{
+    font-family: sans-serif;
+    color: #000000;
+}
+body {
+    background-color: #F0EFF4;
+}
+/* Navbar */
+.navbar{
+    height: 5rem;
+    background-color: #3D2645 !important;
+}
+.fa-compass {
+    /* color: #fe424d; */
+    color: #DA4167;
+    font-size: 2rem;
+}
+.nav-link{
+    /* color: #222222 !important; */
+    color : #F0EFF4;
+    font-weight: 550;
+}
+
+/* Footer */
+.f-info{
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.f-info-links, .f-info-socials, .f-info-brand{
+    width: 100%;
+}
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+    margin: 0rem 0.5rem 0rem 0.5rem;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+.f-info-links{
+    margin-bottom: 0.5rem;
+}
+.f-info-socials{
+    font-size: 1.2rem;
+}
+.f-info-socials i {
+    margin: 0rem 1rem 0rem 1rem;
+}
