@@ -23,7 +23,7 @@ a{
     height: 5rem;
 }
 .fa-compass {
-    color: #fe424d;
+    color: #2563EB;
     font-size: 2rem;
 }
 .nav-link{
@@ -200,4 +200,143 @@ a{
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* === Review Card Styling === */
+.review-card {
+  background-color: #fdfbff;
+  border: 1px solid #eee;
+  border-left: 4px solid #4b2354;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(75, 35, 84, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+  box-shadow: 0 4px 12px rgba(75, 35, 84, 0.15);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #4b2354;
+  margin-bottom: 0.5rem;
+}
+
+.review-rating {
+  color: #e63946;
+  font-weight: bold;
+}
+
+.review-comment {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Submit Review Button */
+.review-section button[type="submit"],
+.review-submit-btn {
+  background-color: #4b2354;
+  color: #ffffff;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.review-section button[type="submit"]:hover,
+.review-submit-btn:hover {
+  background-color: #381a3d;
+  transform: translateY(-1px);
+}
+
+.review-section button[type="submit"]:active,
+.review-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* === Toggle Button === */
+.review-toggle-btn {
+  background-color: #4b2354;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s;
+}
+
+.review-toggle-btn:hover {
+  background-color: #381a3d;
+}
+
+/* === Edit/Delete Button Styling === */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+  background-color: #4b2a63;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #381a3d;
+}
+
+.btn-delete {
+  background-color: #e63946;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c22e3b;
+}
+
+.review-delete-form {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.review-delete-btn {
+  background-color: transparent;
+  border: none;
+  color: #e63946;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.review-delete-btn:hover {
+  color: #a1182c;
+  transform: scale(1.2);
+}
+
+.review-delete-btn:active {
+  transform: scale(0.95);
 }
