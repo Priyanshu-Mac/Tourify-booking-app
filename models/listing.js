@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Review = require("./review.js")
 
 const listingSchema = new mongoose.Schema({
     title : {
@@ -25,8 +26,21 @@ const listingSchema = new mongoose.Schema({
     country : {
         type : String,
         required : true
-    }
+    },
+    reviews : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "Review"
+        }
+    ]
 });
+
+//Mongoose middleware for : when we delete a listing we also want the reviews of that listing to be deleted
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if(listing){
+        await Review.deleteMany({_id : {$in : listing.reviews}});
+    }
+})
 
 const Listing = new mongoose.model("Listing", listingSchema);
 

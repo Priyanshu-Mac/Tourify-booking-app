@@ -8,5 +8,12 @@ const listingSchema = Joi.object({
     country : Joi.string().required(),
     location : Joi.string().required(),
 });
+const reviewSchema = Joi.object({
+    rating : Joi.number().required().min(1).max(5),
+    comment : Joi.string().required(),
+});
 
-module.exports = listingSchema;
+module.exports = {
+    listingSchema,
+    reviewSchema
+};
