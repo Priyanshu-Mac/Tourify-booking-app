@@ -340,3 +340,48 @@ a{
 .review-delete-btn:active {
   transform: scale(0.95);
 }
+
+/* Flash message styling */
+.flash-message {
+    padding: 1rem 1.5rem;
+    margin: 1rem auto;
+    width: 80%;
+    max-width: 38rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease-in-out;
+  }
+
+  .flash-message.success {
+    background-color: #e6ffed;
+    color: #1e4620;
+    border: 1px solid #a1e2b2;
+  }
+.flash-message.danger {
+    background-color: #ffecec;
+    color: #8b0000;
+    border: 1px solid #f5b1b1;
+  }
+  .flash-message.edited {
+    background-color: #f0faff;
+    color: #004085;
+    border: 1px solid #b8e0ff;
+  }
+  .flash-message.review {
+    background-color: #fffbe6;
+    color: #5c4b00;
+    border: 1px solid #ffe58f;
+  }
+  .flash-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: inherit;
+  cursor: pointer;
+}

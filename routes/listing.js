@@ -40,6 +40,7 @@ router.post("/", validateListing, asyncWrap(async (req, res) => {
         location
     });
     await newListing.save();
+    req.flash("newListing", "New Listing Created");
     res.redirect("/listings");
 }));
 
@@ -56,14 +57,24 @@ router.get("/:id/edit", asyncWrap(async (req, res) => {
 //update route
 router.put("/:id", validateListing, asyncWrap(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, req.body);
+    let listing = await Listing.findByIdAndUpdate(id, req.body);
+    if (!listing) {
+    req.flash("notExist", "Cannot update. Listing not found.");
+        return res.redirect("/listings");
+    }
+    req.flash("edited", "Listing updated");
     res.redirect(`/listings/${id}`);
 }));
 
 //delete route
 router.delete("/:id", asyncWrap(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndDelete(id); //this will also trigger Mongoose middleware with findOneAndDelete function which will delete the review also
+    let deletedListing = await Listing.findByIdAndDelete(id); //this will also trigger Mongoose middleware with findOneAndDelete function which will delete the review also
+    if(!deletedListing){
+        req.flash("notExist", "Listing not found. Nothing was deleted");
+        return res.redirect("/listings");
+    }
+    req.flash("removed", "Listing removed");
     res.redirect("/listings");
 }));
 
@@ -71,6 +82,10 @@ router.delete("/:id", asyncWrap(async (req, res) => {
 router.get("/:id", asyncWrap(async(req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id).populate("reviews");
+    if(!listing){
+        req.flash("notExist", "Listing you requested for does not exist!");
+        return res.redirect("/listings");
+    }
     res.render("./listings/show.ejs", { listing })
 }));
 

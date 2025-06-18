@@ -1,5 +1,10 @@
 <% layout('/layouts/boilerplate') -%>
+<%- include('../includes/flashMessage.ejs', { type: 'success', message: newListing }) %>
+<%- include('../includes/flashMessage.ejs', { type: 'danger', message: removed }) %>
+<%- include('../includes/flashMessage.ejs', { type: 'danger', message: notExist }) %>
+
 <body>
+
   <h1>All Listings</h1>
   <div class="card-container">
     <% for(let listing of listings) { %>
