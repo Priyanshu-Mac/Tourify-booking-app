@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const asyncWrap = require("../utils/asyncWrap.js");
 const ExpressError = require("../utils/ExpressError.js");
-const Listing = require("../models/listing.js");
+const Listing = require("../models/listingModel.js");
 const {listingSchema} = require("../schema.js"); //for Server-side validation using Joi
 const {reviewSchema} = require("../schema.js"); //for Server-side validation using Joi
 

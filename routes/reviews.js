@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router({mergeParams : true});
 const asyncWrap = require("../utils/asyncWrap.js");
 const ExpressError = require("../utils/ExpressError.js");
-const Listing = require("../models/listing.js");
-const Review = require("../models/review.js");
+const Listing = require("../models/listingModel.js");
+const Review = require("../models/reviewModel.js");
 const {reviewSchema} = require("../schema.js"); //for Server-side validation using Joi
 
 const validateReview = (req, res, next) => {

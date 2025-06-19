@@ -1,0 +1,47 @@
+<% layout("/layouts/boilerplate") %>
+<%- include('../includes/flashMessage.ejs', { type: 'danger', message: error }) %>
+        <body style="background-color: #f0eff4">
+            <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh">
+                <div class="card shadow p-5" style="
+                max-width: 38rem;
+                width: 100%;
+                background-color: #ffffff;
+                border-left: 0.5rem solid #832161;
+                border-radius: 1rem;
+                padding: 3rem !important;
+                margin-bottom: 5rem !important;
+      ">
+                    <h2 class="mb-4 text-center" style="color: #3d2645; margin-bottom: 3rem !important;">
+                        <i class="fa-regular fa-compass"></i> Welcome Back to Tourify
+                    </h2>
+
+                    <form action="/login" method="POST" class="needs-validation" novalidate>
+
+                        <div class="mb-3" style="margin-bottom: 2rem !important;">
+                            <label for="username" class="form-label" style="color: #3d2645">Username</label>
+                            <input type="text" class="form-control signup-input" id="username" autocomplete="username"
+                                name="username" placeholder="Enter your username" style="background-color: #f0eff4"
+                                required />
+                            <div class="invalid-feedback">Please write a username</div>
+                        </div>
+
+                        <div class="mb-3" style="margin-bottom: 2rem !important;">
+                            <label for="password" class="form-label" style="color: #3d2645">Password</label>
+                            <input type="password" class="form-control signup-input" id="password"
+                                autocomplete="new-password" name="password" placeholder="Enter your password"
+                                style="background-color: #f0eff4" required />
+                            <div class="invalid-feedback">Please write a password</div>
+                        </div>
+
+                        <div class="d-grid signup-submit-btn"
+                            style="margin-top: 3.5rem !important; margin-bottom: 1rem !important;">
+                            <button type="submit" class="btn btn-lg"
+                                style="background-color: #da4167; color: white; transition: all 0.3s ease;">
+                                Login
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </body>

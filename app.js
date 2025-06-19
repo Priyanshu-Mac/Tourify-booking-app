@@ -8,12 +8,19 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/userModel.js");
 
-//Express Router for Listing routes
+//Requiring Express Router for Listing routes
 const listingRouter = require("./routes/listing.js");
 
-//Express Router for Review routes
+//Requiring Express Router for Review routes
 const reviewRouter = require("./routes/reviews.js");
+
+//Requiring Express Router for User routes
+const userRouter = require("./routes/user.js");
+
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -53,6 +60,17 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+// use static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
+
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 //Flashing message
 app.use((req, res, next) => {
     res.locals.newListing = req.flash("newListing");
@@ -60,16 +78,24 @@ app.use((req, res, next) => {
     res.locals.edited = req.flash("edited");
     res.locals.reviewSuccess = req.flash("reviewSuccess");
     res.locals.deleteReview = req.flash("deleteReview");
-    res.locals.notExist = req.flash("notExist")
+    res.locals.notExist = req.flash("notExist");
+    res.locals.signupSuccess = req.flash("signupSuccess");
+    res.locals.signupError = req.flash("signupError");
+    res.locals.loginSuccess = req.flash("loginSuccess")
+    //Passport stores it's error here for Login error-->
+    res.locals.error = req.flash("error");
     next();
 });
 
 
-//Express Router for Listing routes
+//Using Express Router for Listing routes
 app.use("/listings", listingRouter);
 
-//Express Router for Review routes
+//Using Express Router for Review routes
 app.use("/listings/:id/reviews", reviewRouter);
+
+//Using Express Router for User routes
+app.use("/", userRouter);
 
 //when no above route matches with what user searches ->
 app.all("*", (req, res, next) => {
