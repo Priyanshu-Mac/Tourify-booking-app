@@ -406,3 +406,19 @@ a{
   border-radius: 0.5rem;
 }
 
+/* Login page */
+
+.login-pg-btn {
+  color: #ffffff;
+  background-color: #da4167;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.hover-effect:hover{
+  background-color: #d28ca8 !important;
+}

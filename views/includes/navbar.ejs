@@ -18,8 +18,13 @@
           </div>
 
           <div class="navbar-nav ms-auto">
-            <a class="nav-link text-primary fw-semibold me-3" href="/signup">Signup</a>
-            <a class="nav-link text-primary fw-semibold me-5" href="/login">Login</a>
+            <% if(!currUser) { %>
+              <a class="nav-link text-primary fw-semibold me-3" href="/signup">Sign up</a>
+              <a class="nav-link text-primary fw-semibold me-5" href="/login">Log in</a>
+            <% } %>
+            <% if(currUser) { %>
+              <a class="nav-link text-primary fw-semibold me-5" onclick="return confirm('Are you sure you want to log out?');" href="/logout">Log out</a>
+            <% } %>
           </div>
           
         </div>

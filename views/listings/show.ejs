@@ -2,6 +2,8 @@
 <%- include('../includes/flashMessage', { type: 'edited', message: edited }) %>
 <%- include('../includes/flashMessage', { type: 'review', message: reviewSuccess }) %>
 <%- include('../includes/flashMessage', { type: 'danger', message: deleteReview }) %>
+<%- include('../includes/flashMessage', { type: 'danger', message: notOwner }) %>
+<%- include('../includes/flashMessage', { type: 'danger', message: notAuthor }) %>
 
 <style>
     body {
@@ -24,19 +26,28 @@
       <li><span class="label">Price:</span> ₹<%= listing.price.toLocaleString("en-IN") %> / night</li>
       <li><span class="label">Location:</span> <%= listing.location %></li>
       <li><span class="label">Country:</span> <%= listing.country %></li>
+      <li><span class="label">Owner:</span> <%= listing.owner.username %></li>
     </ul>
 
     <div class="action-buttons btn-group mb-4">
-      <form action="/listings/<%= listing._id %>/edit" method="get">
-        <button class="btn-edit">Edit</button>
-      </form>
+      <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+        <form action="/listings/<%= listing._id %>/edit" method="get">
+          <button class="btn-edit">Edit</button>
+        </form>
 
-      <button id="toggleReviewForm" class="review-toggle-btn">Add Review</button>
+        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post" onsubmit="return confirm('Delete this listing?');">
+          <button class="btn-delete offset-2">Delete</button>
+        </form>
+      <% } %>
 
-      <form action="/listings/<%= listing._id %>?_method=DELETE" method="post" onsubmit="return confirm('Delete this listing?');">
-        <button class="btn-delete">Delete</button>
-      </form>
-
+      <% if(currUser) { %>
+        <button id="toggleReviewForm" class="review-toggle-btn">Add Review</button>
+      <% } else { %>
+        <form action="/listings/<%= listing._id %>/reviews/new" method="get">
+          <button class="review-toggle-btn">Add Review</button>
+        </form>
+      <% } %>
+        
       
     </div>
 
@@ -71,23 +82,23 @@
   <% if (listing.reviews.length === 0) { %>
     <p class="no-reviews-text">No reviews yet. Be the first to review!</p>
   <% } else { %>
-    <% let index = 1; %>
     <% for(let review of listing.reviews) { %>
       <div class="review-card">
         <div class="review-header">
-          <strong>User<%= index %></strong>
+          <strong><i class="fa-regular fa-at"></i> <%= review.author.username %></strong>
           <span class="review-rating"><%= review.rating %> ★</span>
         </div>
         <p class="review-comment"><%= review.comment %></p>
 
+        <% if(currUser && currUser._id.equals(review.author._id)) {%>
         <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="review-delete-form">
           <button class="review-delete-btn" onclick="return confirm('Delete this review?')">
           <i class="fa-solid fa-xmark"></i>
           </button>
         </form>
+        <% } %>
 
       </div>
-      <% index++; %>
     <% } %>
   <% } %>
 </div>

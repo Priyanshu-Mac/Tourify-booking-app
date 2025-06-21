@@ -81,9 +81,15 @@ app.use((req, res, next) => {
     res.locals.notExist = req.flash("notExist");
     res.locals.signupSuccess = req.flash("signupSuccess");
     res.locals.signupError = req.flash("signupError");
-    res.locals.loginSuccess = req.flash("loginSuccess")
+    res.locals.authenticationError = req.flash("authenticationError");
+    res.locals.loginSuccess = req.flash("loginSuccess");
+    res.locals.logoutSuccess = req.flash("logoutSuccess");
+    res.locals.notOwner = req.flash("notOwner");
+    res.locals.notAuthor = req.flash("notAuthor");
     //Passport stores it's error here for Login error-->
     res.locals.error = req.flash("error");
+
+    res.locals.currUser = req.user;
     next();
 });
 

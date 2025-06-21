@@ -1,5 +1,6 @@
 <% layout("/layouts/boilerplate") %>
 <%- include('../includes/flashMessage.ejs', { type: 'danger', message: error }) %>
+<%- include('../includes/flashMessage.ejs', { type: 'danger', message: authenticationError }) %>
         <body style="background-color: #f0eff4">
             <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh">
                 <div class="card shadow p-5" style="
@@ -35,13 +36,24 @@
 
                         <div class="d-grid signup-submit-btn"
                             style="margin-top: 3.5rem !important; margin-bottom: 1rem !important;">
-                            <button type="submit" class="btn btn-lg"
+                            <button type="submit" class="btn btn-lg login-pg-btn hover-effect"
                                 style="background-color: #da4167; color: white; transition: all 0.3s ease;">
                                 Login
                             </button>
 
                         </div>
                     </form>
+
+                    <!-- Signup message -->
+                    <div class="text-center mt-4">
+                        <p style="color: #6c547b; font-size: 1rem; margin-bottom: 0.4rem;">
+                            Don’t have an account?
+                        </p>
+                        <a href="/signup" class="login-pg-btn">
+                            Join Tourify Today
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </body>

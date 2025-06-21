@@ -1,7 +1,7 @@
 const sampleListings = [
   {
     title: "Rustic Cabin in the Woods",
-    image : "https://plus.unsplash.com/premium_photo-1686090450467-3212162803e5?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHZpbGxhJTIwaW4lMjB3b29kc3xlbnwwfHwwfHx8MA%3D%3D",
+    image : "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description:
       "A peaceful retreat surrounded by trees and nature. Great for hiking and unplugging.",
     price: 900,

@@ -1,48 +1,3 @@
-<!-- <% layout('/layouts/boilerplate') -%>
-<body>
-    <h1 id="new-heading">Create new listing</h1>
-    <form action="/listings" method="post">
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" name="title" placeholder="e.g., Beachside Villa">
-        </div>
-        
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea name="description" class="form-control" placeholder="Brief description..."></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="image" class="form-label">Image URL</label>
-            <input type="text" class="form-control" name="image" placeholder="https://example.com/photo.jpg">
-        </div>
-
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="text" class="form-control" name="price" placeholder="e.g., 5000">
-        </div>
-
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" class="form-control" name="country" placeholder="e.g., India">
-        </div>
-
-        <div class="mb-3">
-            <label for="location" class="form-label">location</label>
-            <input type="text" class="form-control" name="location" placeholder="e.g., Goa">
-        </div>
-        
-        
-
-        
-
-        
-        
-
-        <button>Add</button>
-    </form>
-</body> -->
-
 <% layout('/layouts/boilerplate') -%>
 <body style="background-color: #f0eff4">
   <div
@@ -52,13 +7,13 @@
     <div
       class="card shadow p-5"
       style="
-        max-width: 600px;
+        max-width: 38rem;
         width: 100%;
         background-color: #ffffff;
-        border-left: 8px solid #832161;
+        border-left: 0.5rem solid #832161;
       "
     >
-      <h2 class="mb-4 text-center" style="color: #3d2645">
+      <h2 class="mb-4 text-center" style="color: #3d2645; margin-top: -0.5rem;">
         Create New Listing
       </h2>
 
@@ -164,7 +119,7 @@
         <div class="d-grid">
           <button
             type="submit"
-            class="btn btn-lg"
+            class="btn btn-lg hover-effect"
             style="background-color: #da4167; color: white"
           >
             Add Listing

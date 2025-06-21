@@ -3,19 +3,7 @@ const router = express.Router();
 const asyncWrap = require("../utils/asyncWrap.js");
 const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listingModel.js");
-const {listingSchema} = require("../schema.js"); //for Server-side validation using Joi
-const {reviewSchema} = require("../schema.js"); //for Server-side validation using Joi
-
-const validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
-    if(error){
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    }
-    else{
-        next();
-    }
-}
+const {isLoggedIn, isOwner, validateListing, validateReview} = require("../middleware.js");
 
 //index route
 router.get("/", asyncWrap(async (req, res) => {
@@ -24,12 +12,12 @@ router.get("/", asyncWrap(async (req, res) => {
 }));
 
 //new route
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn ,(req, res) => {
     res.render("./listings/new.ejs");
 });
 
 //create route
-router.post("/", validateListing, asyncWrap(async (req, res) => {
+router.post("/", isLoggedIn, validateListing, asyncWrap(async (req, res) => {
     let { title, description, image, price, country, location } = req.body;
     let newListing = new Listing({
         title,
@@ -39,13 +27,14 @@ router.post("/", validateListing, asyncWrap(async (req, res) => {
         country,
         location
     });
+    newListing.owner = req.user._id;
     await newListing.save();
     req.flash("newListing", "New Listing Created");
     res.redirect("/listings");
 }));
 
 //edit route
-router.get("/:id/edit", asyncWrap(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     if (!listing) {
@@ -55,7 +44,7 @@ router.get("/:id/edit", asyncWrap(async (req, res) => {
 }));
 
 //update route
-router.put("/:id", validateListing, asyncWrap(async (req, res) => {
+router.put("/:id", isLoggedIn, isOwner, validateListing, asyncWrap(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, req.body);
     if (!listing) {
@@ -67,7 +56,7 @@ router.put("/:id", validateListing, asyncWrap(async (req, res) => {
 }));
 
 //delete route
-router.delete("/:id", asyncWrap(async (req, res) => {
+router.delete("/:id", isLoggedIn, isOwner, asyncWrap(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id); //this will also trigger Mongoose middleware with findOneAndDelete function which will delete the review also
     if(!deletedListing){
@@ -81,7 +70,14 @@ router.delete("/:id", asyncWrap(async (req, res) => {
 //show route
 router.get("/:id", asyncWrap(async(req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findById(id).populate("reviews");
+    let listing = await Listing.findById(id)
+        .populate({
+            path : "reviews", 
+            populate : {
+                path : "author",  //With each review we are bringing their author too
+            }
+        })
+        .populate("owner");
     if(!listing){
         req.flash("notExist", "Listing you requested for does not exist!");
         return res.redirect("/listings");
