@@ -6,25 +6,28 @@ const Listing = require("../models/listingModel.js");
 const {isLoggedIn, isOwner, validateListing} = require("../middleware.js");
 const listingController = require("../controllers/listingsController.js");
 
-//index route
-router.get("/", asyncWrap(listingController.index));
-
 //new route
 router.get("/new", isLoggedIn , listingController.renderNew);
-
-//create route
-router.post("/", isLoggedIn, validateListing, asyncWrap(listingController.createListing));
 
 //edit route
 router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(listingController.editListing));
 
-//update route
-router.put("/:id", isLoggedIn, isOwner, validateListing, asyncWrap(listingController.updateListing));
+router.route("/")
+    //index route
+    .get(asyncWrap(listingController.index))
+    //create route
+    .post(isLoggedIn, validateListing, asyncWrap(listingController.createListing));
 
-//delete route
-router.delete("/:id", isLoggedIn, isOwner, asyncWrap(listingController.destroyListing));
+router.route("/:id")
+    //update route
+    .put(isLoggedIn, isOwner, validateListing, asyncWrap(listingController.updateListing))
+    //delete route
+    .delete(isLoggedIn, isOwner, asyncWrap(listingController.destroyListing))
+    //show route
+    .get(asyncWrap(listingController.showListing));
 
-//show route
-router.get("/:id", asyncWrap(listingController.showListing));
+// router.route() --> helps us group together those routes 
+// which have same path and different method
+// so that we don't have to define the same path again and again.
 
 module.exports = router;
