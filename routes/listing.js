@@ -3,8 +3,13 @@ const router = express.Router();
 const asyncWrap = require("../utils/asyncWrap.js");
 const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listingModel.js");
-const {isLoggedIn, isOwner, validateListing} = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listingsController.js");
+// Multer is a node.js middleware for handling multipart/form-data, 
+// which is primarily used for uploading files.
+const multer  = require('multer');
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 //new route
 router.get("/new", isLoggedIn , listingController.renderNew);
@@ -16,11 +21,10 @@ router.route("/")
     //index route
     .get(asyncWrap(listingController.index))
     //create route
-    .post(isLoggedIn, validateListing, asyncWrap(listingController.createListing));
-
+    .post(isLoggedIn, upload.single('image'), validateListing, asyncWrap(listingController.createListing));
 router.route("/:id")
     //update route
-    .put(isLoggedIn, isOwner, validateListing, asyncWrap(listingController.updateListing))
+    .put(isLoggedIn, isOwner, upload.single('image'), validateListing, asyncWrap(listingController.updateListing))
     //delete route
     .delete(isLoggedIn, isOwner, asyncWrap(listingController.destroyListing))
     //show route

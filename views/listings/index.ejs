@@ -5,15 +5,16 @@
 <%- include('../includes/flashMessage.ejs', { type: 'success', message: signupSuccess }) %>
 <%- include('../includes/flashMessage.ejs', { type: 'success', message: loginSuccess }) %>
 <%- include('../includes/flashMessage.ejs', { type: 'success', message: logoutSuccess }) %>
-
+<%- include('../includes/flashMessage.ejs', { type: 'danger', message: noCountry }) %>
 <body>
 
-  <h1>All Listings</h1>
+  <!-- <h1>All Listings</h1> -->
+   
   <div class="card-container">
     <% for(let listing of listings) { %>
         <a href="/listings/<%= listing._id %>">
             <div class="card" style="width: 18rem">
-    <img src="<%= listing.image %>" class="card-img-top" alt="listingImg" />
+    <img src="<%= listing.image.path %>" class="card-img-top" alt="listingImg" />
     <div class="card-body">
         <p class="card-title">
             <%= listing.title %>

@@ -1,0 +1,71 @@
+<div class="container-fluid"></div>
+<div class="filters-wrapper">
+
+  <button id="toggle-filters" class="filter-toggle-btn">
+    <i class="fa-solid fa-bars"></i> Categories
+  </button>
+    <div id="filters">
+    <a class="navbar-brand" href="/listings/filter?category=Trending">
+      <div class="filter navbar-toggler">
+        <div><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <p>Trending</p>
+      </div>
+    </a>
+    
+    <a class="navbar-brand" href="/listings/filter?category=Stays">    
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Stays</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=Mountains">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Mountains</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=Nature%20Escapes">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-tree"></i></div>
+      <p>Nature Escapes</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=With%20Pool">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>With Pool</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=Beaches">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beaches</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=Urban">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-city"></i></div>
+      <p>Urban</p>
+    </div>
+    </a>
+    <a class="navbar-brand" href="/listings/filter?category=Snow">
+    <div class="filter navbar-toggler">
+      <div><i class="fa-solid fa-snowflake"></i></div>
+      <p>Snow</p>
+    </div>
+    </a> 
+
+   </div>
+</div>
+   <hr id="filters-hr">
+</div>
+   
+<script>
+  const toggleBtn = document.getElementById("toggle-filters");
+  const filters = document.getElementById("filters");
+
+  toggleBtn?.addEventListener("click", () => {
+    filters.classList.toggle("show");
+  });
+</script>
+

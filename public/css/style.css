@@ -422,3 +422,131 @@ a{
 .hover-effect:hover{
   background-color: #d28ca8 !important;
 }
+
+/* filters */
+/* Filters Container */
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+}
+
+/* Individual Filter Styles */
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #444;
+  opacity: 0.7;
+  transition: all 0.3s ease-in-out;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  min-width: 5rem;
+  margin-top: 1rem;
+  margin-right: 2rem;
+}
+
+.filter i {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.filter:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  cursor: pointer;
+  background-color: #f2f2f2;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.08);
+}
+
+.filter.active {
+  opacity: 1;
+  color: #007bff;
+  background-color: #e9f3ff;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+}
+
+.filter p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Toggle Button Styling (hidden by default) */
+.filter-toggle-btn {
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 1rem;
+  margin: 0.5rem auto 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Responsive: Small screens only */
+@media (max-width: 48rem) {
+
+  .filter-toggle-btn {
+    display: flex;
+    justify-content: center;
+  }
+
+  #filters {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+
+    /* ✅ Add these for scrollable area */
+    max-height: 15rem;     /* Adjust height as needed */
+    overflow-y: auto;
+  }
+
+  #filters.show {
+    display: flex;
+  }
+
+  .filter {
+    margin: 0.5rem;
+    min-width: 3.75rem;
+    padding: 0.4rem;
+  }
+
+  .filter i {
+    font-size: 1rem;
+  }
+}
+
+.category-dropdown-btn {
+    background-color: #ffffff;
+    border: 2px solid #832161;
+    border-radius: 0.5rem;
+    color: #3d2645;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .category-dropdown-btn:hover {
+    background-color: #f8e8f0;
+    color: #832161;
+  }
+
+ #filters-hr {
+  width: 69rem;
+  margin-inline: auto; /* keeps it centered responsively */
+  margin-top: -0.01rem;
+  margin-bottom: 2rem;
+  transform: translateX(-15px);
+}
+/* REMOVE or override this */
+#filters.show {
+  display: flex;
+}

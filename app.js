@@ -1,3 +1,6 @@
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config()
+}
 const express = require("express");
 const app = express();
 const port = 8000;
@@ -7,10 +10,13 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/userModel.js");
+
+const MongoAtlasUrl = process.env.ATLAS_DB_URL;
 
 //Requiring Express Router for Listing routes
 const listingRouter = require("./routes/listing.js");
@@ -20,6 +26,9 @@ const reviewRouter = require("./routes/reviews.js");
 
 //Requiring Express Router for User routes
 const userRouter = require("./routes/user.js");
+
+//Requiring Express Router for Filters routes
+const filterRouter = require("./routes/filters.js");
 
 
 app.engine("ejs", ejsMate);
@@ -31,8 +40,22 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended : true}));
 app.use(methodOverride("_method"));
 
+
+const store = MongoStore.create({
+    mongoUrl : MongoAtlasUrl,
+    crypto : {
+        secret : process.env.SECRET
+    },
+    touchAfter : 24 * 60 * 60,
+});
+
+store.on("err", () => {
+    console.log("ERROR in MONGO SESSION STORE", err);
+});
+
 const sessionOptions = {
-    secret : "mysupersecretcode",
+    store : store,
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -42,6 +65,7 @@ const sessionOptions = {
     },
 };
 
+
 main()
     .then(() => {
         console.log("connection to mongoDB successful");
@@ -49,13 +73,13 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/tourify');
+  await mongoose.connect(MongoAtlasUrl);
 }
 
-//root route
-app.get("/", (req, res) => {
-    res.send("root route");
-});
+// //root route
+// app.get("/", (req, res) => {
+//     res.send("root route");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -86,6 +110,7 @@ app.use((req, res, next) => {
     res.locals.logoutSuccess = req.flash("logoutSuccess");
     res.locals.notOwner = req.flash("notOwner");
     res.locals.notAuthor = req.flash("notAuthor");
+    res.locals.noCountry = req.flash("noCountry");
     //Passport stores it's error here for Login error-->
     res.locals.error = req.flash("error");
 
@@ -93,6 +118,8 @@ app.use((req, res, next) => {
     next();
 });
 
+//Using Express Router for Filters routes
+app.use("/", filterRouter);
 
 //Using Express Router for Listing routes
 app.use("/listings", listingRouter);
@@ -102,6 +129,8 @@ app.use("/listings/:id/reviews", reviewRouter);
 
 //Using Express Router for User routes
 app.use("/", userRouter);
+
+
 
 //when no above route matches with what user searches ->
 app.all("*", (req, res, next) => {

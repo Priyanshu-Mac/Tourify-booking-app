@@ -1,120 +1,137 @@
 <% layout('/layouts/boilerplate') -%>
-<%- include('../includes/flashMessage', { type: 'edited', message: edited }) %>
-<%- include('../includes/flashMessage', { type: 'review', message: reviewSuccess }) %>
-<%- include('../includes/flashMessage', { type: 'danger', message: deleteReview }) %>
-<%- include('../includes/flashMessage', { type: 'danger', message: notOwner }) %>
-<%- include('../includes/flashMessage', { type: 'danger', message: notAuthor }) %>
+<%- include('../includes/flashMessage', { type: 'edited' , message: edited }) %>
+<%- include('../includes/flashMessage', { type: 'review' , message: reviewSuccess }) %>
+<%- include('../includes/flashMessage', { type: 'danger' , message: deleteReview }) %>
+<%- include('../includes/flashMessage', { type: 'danger' , message: notOwner }) %>
+<%- include('../includes/flashMessage', { type: 'danger' , message: notAuthor }) %>
 
-<style>
+  <style>
     body {
-  background-color: #F0EFF4;
-  margin: 0;
-  padding: 0;
-  font-family: 'Helvetica Neue', sans-serif;
-}
-</style>
-
-<div class="listing-container">
-  <img src="<%= listing.image %>" alt="<%= listing.title %>" class="listing-img" />
-
-  <div class="listing-content">
-    <h2 class="listing-title"><%= listing.title %></h2>
-
-    <ul>
-      <!-- <li><span class="label">Title:</span> <%= listing.title %></li> -->
-      <li><span class="label">Description:</span> <%= listing.description %></li>
-      <li><span class="label">Price:</span> ₹<%= listing.price.toLocaleString("en-IN") %> / night</li>
-      <li><span class="label">Location:</span> <%= listing.location %></li>
-      <li><span class="label">Country:</span> <%= listing.country %></li>
-      <li><span class="label">Owner:</span> <%= listing.owner.username %></li>
-    </ul>
-
-    <div class="action-buttons btn-group mb-4">
-      <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
-        <form action="/listings/<%= listing._id %>/edit" method="get">
-          <button class="btn-edit">Edit</button>
-        </form>
-
-        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post" onsubmit="return confirm('Delete this listing?');">
-          <button class="btn-delete offset-2">Delete</button>
-        </form>
-      <% } %>
-
-      <% if(currUser) { %>
-        <button id="toggleReviewForm" class="review-toggle-btn">Add Review</button>
-      <% } else { %>
-        <form action="/listings/<%= listing._id %>/reviews/new" method="get">
-          <button class="review-toggle-btn">Add Review</button>
-        </form>
-      <% } %>
-        
-      
-    </div>
-
-    <form id="reviewForm" action="/listings/<%= listing._id %>/reviews" method="post" class="review-section needs-validation mb-4 mt-4" style="display: none;" novalidate>
-      <div class="mb-3 mt-3">
-        <label for="rating" class="form-label">Rating</label>
-        <select name="rating" id="rating" class="form-control" required>
-          <option disabled selected value="">Choose rating</option>
-          <% for(let i = 5; i >= 1; i--) { %>
-            <option value="<%= i %>"><%= i %> ★</option>
-          <% } %>
-        </select>
-        <div class="valid-feedback">Rating looks good</div>
-          <div class="invalid-feedback">Please give a rating</div>
-      </div>
-
-      <div class="mb-3 mt-3">
-        <label for="comment" class="form-label">Comment</label>
-        <textarea name="comment" id="comment" class="form-control" required></textarea>
-        <div class="valid-feedback">Comment looks good</div>
-        <div class="invalid-feedback">Please write a comment</div>
-      </div>
-
-      <button type="submit" class="review-submit-btn">Submit</button>
-    </form>
-
-    <hr>
-
-    <div class="reviews-list mb-4 mt-4">
-  <h4 class="mb-4">All reviews</h4>
-
-  <% if (listing.reviews.length === 0) { %>
-    <p class="no-reviews-text">No reviews yet. Be the first to review!</p>
-  <% } else { %>
-    <% for(let review of listing.reviews) { %>
-      <div class="review-card">
-        <div class="review-header">
-          <strong><i class="fa-regular fa-at"></i> <%= review.author.username %></strong>
-          <span class="review-rating"><%= review.rating %> ★</span>
-        </div>
-        <p class="review-comment"><%= review.comment %></p>
-
-        <% if(currUser && currUser._id.equals(review.author._id)) {%>
-        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="review-delete-form">
-          <button class="review-delete-btn" onclick="return confirm('Delete this review?')">
-          <i class="fa-solid fa-xmark"></i>
-          </button>
-        </form>
-        <% } %>
-
-      </div>
-    <% } %>
-  <% } %>
-</div>
-
-  </div>
-</div>
-
-<script>
-  document.getElementById("toggleReviewForm").addEventListener("click", function () {
-    const form = document.getElementById("reviewForm");
-    if (form.style.display === "none") {
-      form.style.display = "block";
-      this.textContent = "Cancel Review";
-    } else {
-      form.style.display = "none";
-      this.textContent = "Add Review";
+      background-color: #F0EFF4;
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
     }
-  });
-</script>
+  </style>
+
+  <div class="listing-container">
+    <img src="<%= listing.image.path %>" alt="<%= listing.title %>" class="listing-img" />
+
+    <div class="listing-content">
+      <h2 class="listing-title">
+        <%= listing.title %>
+      </h2>
+
+      <ul>
+        <!-- <li><span class="label">Title:</span> <%= listing.title %></li> -->
+        <li><span class="label">Description:</span>
+          <%= listing.description %>
+        </li>
+        <li><span class="label">Price:</span> ₹<%= listing.price.toLocaleString("en-IN") %> / night</li>
+        <li><span class="label">Location:</span>
+          <%= listing.location %>
+        </li>
+        <li><span class="label">Country:</span>
+          <%= listing.country %>
+        </li>
+        <li><span class="label">Owner:</span>
+          <%= listing.owner.username %>
+        </li>
+      </ul>
+
+      <div class="action-buttons btn-group mb-4">
+        <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+          <form action="/listings/<%= listing._id %>/edit" method="get">
+            <button class="btn-edit">Edit</button>
+          </form>
+
+          <form action="/listings/<%= listing._id %>?_method=DELETE" method="post"
+            onsubmit="return confirm('Delete this listing?');">
+            <button class="btn-delete offset-2">Delete</button>
+          </form>
+          <% } %>
+
+            <% if(currUser) { %>
+              <button id="toggleReviewForm" class="review-toggle-btn">Add Review</button>
+              <% } else { %>
+                <form action="/listings/<%= listing._id %>/reviews/new" method="get">
+                  <button class="review-toggle-btn">Add Review</button>
+                </form>
+                <% } %>
+      </div>
+
+      <form id="reviewForm" action="/listings/<%= listing._id %>/reviews" method="post"
+        class="review-section needs-validation mb-4 mt-4" style="display: none;" novalidate>
+        <div class="mb-3 mt-3">
+          <label for="rating" class="form-label">Rating</label>
+          <select name="rating" id="rating" class="form-control" required>
+            <option disabled selected value="">Choose rating</option>
+            <% for(let i=5; i>= 1; i--) { %>
+              <option value="<%= i %>">
+                <%= i %> ★
+              </option>
+              <% } %>
+          </select>
+          <div class="valid-feedback">Rating looks good</div>
+          <div class="invalid-feedback">Please give a rating</div>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="comment" class="form-label">Comment</label>
+          <textarea name="comment" id="comment" class="form-control" required></textarea>
+          <div class="valid-feedback">Comment looks good</div>
+          <div class="invalid-feedback">Please write a comment</div>
+        </div>
+
+        <button type="submit" class="review-submit-btn">Submit</button>
+      </form>
+
+      <hr>
+
+      <div class="reviews-list mb-4 mt-4">
+        <h4 class="mb-4">All reviews</h4>
+
+        <% if (listing.reviews.length===0) { %>
+          <p class="no-reviews-text">No reviews yet. Be the first to review!</p>
+          <% } else { %>
+            <% for(let review of listing.reviews) { %>
+              <div class="review-card">
+                <div class="review-header">
+                  <strong><i class="fa-regular fa-at"></i>
+                    <%= review.author.username %>
+                  </strong>
+                  <span class="review-rating">
+                    <%= review.rating %> ★
+                  </span>
+                </div>
+                <p class="review-comment">
+                  <%= review.comment %>
+                </p>
+
+                <% if(currUser && currUser._id.equals(review.author._id)) {%>
+                  <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                    method="post" class="review-delete-form">
+                    <button class="review-delete-btn" onclick="return confirm('Delete this review?')">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </form>
+                  <% } %>
+              </div>
+              <% } %>
+                <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("toggleReviewForm").addEventListener("click", function () {
+      const form = document.getElementById("reviewForm");
+      if (form.style.display === "none") {
+        form.style.display = "block";
+        this.textContent = "Cancel Review";
+      } else {
+        form.style.display = "none";
+        this.textContent = "Add Review";
+      }
+    });
+  </script>

@@ -11,16 +11,19 @@ module.exports.renderNew = (req, res) => {
 };
 
 module.exports.createListing = async (req, res) => {
-    let { title, description, image, price, country, location } = req.body;
+    let path = req.file.path;
+    let filename = req.file.filename;
+    let { title, description, price, country, location, categories } = req.body;
     let newListing = new Listing({
         title,
         description,
-        image,
         price,
         country,
-        location
+        location,
+        categories
     });
     newListing.owner = req.user._id;
+    newListing.image = { path, filename };
     await newListing.save();
     req.flash("newListing", "New Listing Created");
     res.redirect("/listings");
@@ -32,12 +35,40 @@ module.exports.editListing = async (req, res) => {
     if (!listing) {
         throw new ExpressError(404, "Listing not found");
     }
-    res.render("./listings/edit.ejs", { listing });
+
+    const imagePath = listing.image.path;
+    let originalImagePath;
+    
+    if (imagePath.includes('res.cloudinary.com')) {
+        // Cloudinary transformation
+        const parts = imagePath.split('/upload/');
+        if (parts.length === 2) {
+            originalImagePath = parts[0] + '/upload/w_150/' + parts[1];
+        } else {
+            originalImagePath = imagePath;
+        }
+    } else if (imagePath.includes('unsplash.com')) {
+        // Unsplash URL parameters
+        originalImagePath = imagePath + '?w=150&q=60&fm=webp&fit=crop';
+    } else {
+        // Other external URLs - use original
+        originalImagePath = imagePath;
+    }
+
+    res.render("./listings/edit.ejs", { listing, originalImagePath });
 };
 
 module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findByIdAndUpdate(id, req.body);
+
+    if(typeof req.file !== "undefined"){
+        let path = req.file.path;
+        let filename = req.file.filename;
+        listing.image = {path, filename};
+        await listing.save();
+    }
+    
     if (!listing) {
     req.flash("notExist", "Cannot update. Listing not found.");
         return res.redirect("/listings");
