@@ -34,7 +34,7 @@ Tourify is a full-stack rental listing web app where users can post, edit, and m
 ## 🌟 Features
 
 - 🏠 **Create, view, edit, and delete listings**
-- 🖼️ Upload multiple property images
+- 🖼️ Upload property image
 - 📍 Integrated Mapbox for dynamic location tagging
 - ✅ Authentication & Authorization
 - 🧾 Server-side validation & custom error handling
